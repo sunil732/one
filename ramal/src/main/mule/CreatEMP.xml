@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="4d111304-afdd-4028-b32a-36b11f5ad767" >
+		<db:my-sql-connection host="database.coggchbfciui.us-east-2.rds.amazonaws.com" port="3306" user="root" password="Sree1238#" database="TEST" />
+	</db:config>
+	<flow name="CreatEMPFlow" doc:id="5a6675f3-ccba-4720-b6c4-d78dac0dcfb2" >
+		<db:insert doc:name="Insert" doc:id="c972e077-cacc-43ae-92c3-bb15bd30f1a2" config-ref="Database_Config">
+			<db:sql ><![CDATA[insert into empinfo values(:empID,:empName,:status)]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+empID:payload.empID,
+empName:payload.empName,
+status:payload.status	
+}]]]></db:input-parameters>
+		</db:insert>
+		<ee:transform doc:name="Copy_of_Transform Message" doc:id="bcf93978-d778-4b24-9513-2c8c326d7c46" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "code ": 20001,
+  Message: "success"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

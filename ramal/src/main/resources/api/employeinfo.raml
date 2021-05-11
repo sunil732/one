@@ -1,0 +1,146 @@
+#%RAML 1.0
+title: Employeinfo
+description: emp information using DB
+baseUri: http://localhost:8081/api/empinfo
+/createemp:
+  description: creating emp in the db
+  displayName: TO CREATE EMP in DB
+  post:
+    displayName: create emp through ramal
+    body:
+      application/json:
+        example:
+          {
+            "empID": 1001,
+            "empName": "test",
+            "status ": 1
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                "code ": 20001,
+                "Message": "success"      
+              }           
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "Code": 40001,
+                "message": "not able to insert emp record"
+             }
+      504:
+        body:
+          application/json:
+            example:
+              {
+                "code": 50004,
+                "message": "server error"
+              }   
+/updateemp:
+  description: to update emp 
+  displayName: UPDATE EMP
+  post:
+    displayName: Update emp information 
+    body:
+      application/xml:
+        example:
+          <?xml version="1.0" encoding="ISO-8859-1"?> 
+          <employee>                                                          
+          <empid>1001</empid>
+          <status>0</status>
+          </employee>
+    responses:
+      200:
+        body:
+          application/xml:
+            example:
+               <?xml version="1.0" encoding="ISO-8859-1"?> 
+              <response>
+              <code>2001</code>
+              <message>success</message>
+              </response>
+      404:
+        body:
+          application/xml:
+            example:
+              <?xml version="1.0" encoding="ISO-8859-1"?>
+              <response>
+              <code>4001</code>
+              <message>update record not success</message>
+              </response>
+      504:
+        body:
+          application/xml:
+            example:
+              <?xml version="1.0" encoding="ISO-8859-1"?>
+              <response>
+              <code>5001</code>
+              <message>server error not success</message>
+              </response>
+/getemp:
+  displayName: GET EMP INFO
+  description: get emp information 
+  get:
+    queryParameters:
+      empid:
+        required: true
+        type: integer
+        example: 1001
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                "code ": 20001,
+                Message": "success"  
+              }       
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "Code": 40001,
+                "message": "not able to get emp record"
+              }
+      504:
+        body:
+          application/json:
+            example:
+              {
+                "code": 50004,
+                 "message": "server error"
+              }
+/deleteemp/{empid}:  
+  displayName: DELETE EMP INACTIVE
+  description: delete employee information 
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                "code ": 20001,
+                "Message": "success"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "code": 4004,
+                "Message": "not success not able to retrive for delete"
+              }
+      504:
+        body:
+          application/json:
+             example:
+               {
+                 "code": 5004,
+                 "Message": "server error for delete"
+               }        

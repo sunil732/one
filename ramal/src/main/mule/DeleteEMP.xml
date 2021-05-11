@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="DeleteEMPFlow" doc:id="4d2bb00c-f2a0-4c55-bcc3-c4bdd5cbbcb2" >
+		<ee:transform doc:name="Copy_of_Transform Message" doc:id="c5112559-aab8-4da6-a2ec-b330ebc6d5fd">
+			<ee:variables>
+				<ee:set-variable variableName="empid"><![CDATA[attributes.uriParams.'empid']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<db:delete doc:name="Delete" doc:id="485d6929-e2ef-4d68-b568-285f7a4b834f" config-ref="Database_Config">
+			<db:sql ><![CDATA[delete from empinfo where empid=:empid]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	empid:attributes.uriParams.empid
+}]]]></db:input-parameters>
+		</db:delete>
+		<ee:transform doc:name="Copy_of_Transform Message" doc:id="4b7592df-c3d0-4221-a9fe-714a5d6ba44c" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "code ": 20001,
+  Message: "success"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

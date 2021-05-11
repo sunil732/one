@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<flow name="UpdateEMPFlow" doc:id="fcc4fa4b-91bb-4592-8f96-4968494564bc" >
+		<ee:transform doc:name="Transform Message" doc:id="674008a9-9711-45d3-afe3-7f7b882a46ec" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	empid:payload.employee.empid,
+	status:payload.employee.status
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<db:update doc:name="Update" doc:id="cf50e1ee-93a9-4c58-9c3c-cb01d1ad1477" config-ref="Database_Config">
+			<db:sql ><![CDATA[update empinfo SET status=:status where empid=:empid ]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	status:payload.status,
+	empid:payload.empid
+}]]]></db:input-parameters>
+		</db:update>
+		<ee:transform doc:name="Copy_of_Transform Message" doc:id="6b8609a1-ebaf-4b8a-8ca2-811a2fb8444a" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+---
+{
+  response: {
+    code: "2001",
+    message: "success"
+  }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
