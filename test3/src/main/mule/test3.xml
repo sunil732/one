@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="7cd5f85a-6213-4de4-8d32-6d2ffa0683b5" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="test3Flow" doc:id="21584082-8d44-456e-ba19-528e80f3f9cc" >
+		<http:listener doc:name="Listener" doc:id="7e571805-f693-4808-81db-de7ae545953b" config-ref="HTTP_Listener_config" path="/hsbc"/>
+		<set-payload value="'HSBC is the banking project'" doc:name="Set Payload" doc:id="8b9b708e-c8ca-4236-bb60-b7126b7d9d4d" />
+		<logger level="INFO" doc:name="Logger" doc:id="8a0ebb41-ef84-459d-bda9-2f25be2be4d3" message="#[payload]"/>
+	</flow>
+</mule>
