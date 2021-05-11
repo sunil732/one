@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="02e4b98e-94b3-4048-aa57-f7327c6ce99a" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="test2Flow" doc:id="a04853cf-262e-4eef-b520-7892560e97a9" >
+		<http:listener doc:name="Listener" doc:id="63b4a12f-a758-4923-8e47-d33c7fa62447" config-ref="HTTP_Listener_config" path="/abc"/>
+		<set-payload value="we are not doing correctly in GIT" doc:name="Set Payload" doc:id="51625a10-87fd-4a19-a0c2-c68965074292" />
+		<logger level="INFO" doc:name="Logger" doc:id="dd8fb7b0-a406-40b9-a176-f288f54db00b" message="#[payload]"/>
+	</flow>
+</mule>
