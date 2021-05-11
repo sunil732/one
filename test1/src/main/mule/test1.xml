@@ -11,5 +11,6 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<http:listener doc:name="Listener" doc:id="96500ae0-78f6-4d2d-9c83-3d3409918037" config-ref="HTTP_Listener_config" path="/hsbc"/>
 		<set-payload value="'this is the another git project for testing'" doc:name="Set Payload" doc:id="54cf41a6-949e-41a8-aff0-ae8985279b34" />
 		<logger level="INFO" doc:name="Logger" doc:id="768b3c1a-a712-4dd6-9326-f28317f4f10d" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="3c79baef-1ab7-4356-8c59-2cb68cd55c5e" message="'second loger'"/>
 	</flow>
 </mule>
